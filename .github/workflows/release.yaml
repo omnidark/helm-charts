@@ -25,9 +25,9 @@ jobs:
           curl -fsSLo get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
           chmod 700 get_helm.sh
           ./get_helm.sh
-      - name: Add dependency chart repos
-        run: |
-          helm repo add virtocommerce https://omnidark.github.io/helm-charts/
+      # - name: Add dependency chart repos
+      #   run: |
+      #     helm repo add virtocommerce https://omnidark.github.io/helm-charts/
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.0.0
         env:
