@@ -13,4 +13,17 @@ entries:
     urls:
     - https://github.com/omnidark/helm-charts/releases/download/virtocommerce-1.0.1/virtocommerce-1.0.1.tgz
     version: 1.0.1
+  virtocommerce-saas:
+  - apiVersion: v2
+    appVersion: "1"
+    created: "2021-06-15T12:10:45.775843719Z"
+    description: SaaS solution
+    digest: e38b31fa07e7b9cd759f6c5aa976fa13513e0290ee3fbb4004deef1d75360cf6
+    maintainers:
+    - email: konstantin.kisilevsky@virtoway.com
+      name: Konstantin Kisilevskiy
+    name: virtocommerce-saas
+    urls:
+    - https://github.com/omnidark/helm-charts/releases/download/virtocommerce-saas-1.0.0/virtocommerce-saas-1.0.0.tgz
+    version: 1.0.0
 generated: "2020-12-02T13:58:19.932233368Z"
