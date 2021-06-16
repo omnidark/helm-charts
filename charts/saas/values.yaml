@@ -20,7 +20,9 @@ platform:
     sql_server:
   vault:
     api_url:
-    secrets:
+    secrets: 
+      secret_name: "template"
+    custom_secrets: false
   resources:
     requests:
       memory:

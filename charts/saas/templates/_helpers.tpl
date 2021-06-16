@@ -33,13 +33,12 @@
 {{- printf "{{ with secret \"secret/mssql\" }}" }}
 {{- printf "export ConnectionStrings__VirtoCommerce=%s" (include "db.connection_string" .) }}
 {{- printf "{{ end }}" }}
-{{- range $secret, $template := .Values.vault.secrets }}
+{{- range $secret, $template := .Values.platform.vault.secrets }}
 {{- printf "{{ with secret \"secret/%s\" }}" $secret }}
 {{- printf "{{ export %s }}" $template }}
 {{- printf "{{ end }}" }}
-{{- end }}
 {{- end -}}
-
+{{- end -}}
 
 {{/*
 Create chart name and version as used by the chart label.
