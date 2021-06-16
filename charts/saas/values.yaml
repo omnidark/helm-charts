@@ -19,7 +19,6 @@ platform:
     sql_username:
     sql_server:
   vault:
-    api_url:
     secrets: 
       secret_name: "template"
     custom_secrets: false
@@ -50,7 +49,7 @@ platform:
       }
 
       "vault" = {
-        "address" = {{ .Values.platform.vault.api_url | default "http://vault.hashicorp-vault.svc.cluster.local:8200" }}
+        "address" = "http://vault.hashicorp-vault.svc.cluster.local:8200" }}
       }
   resources:
     requests:
