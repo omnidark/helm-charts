@@ -1,11 +1,9 @@
 {{- define "env.app_name" -}}
-{{- $name := trimSuffix .Release.Name "-" | trimSuffix "-" | default "saas" -}}
-{{- printf $name }}
+{{- printf .Release.Name }}
 {{- end -}}
 
 {{- define "platform.host" -}}
-{{- $name := trimSuffix .Release.Name "-" | trimSuffix "-" -}}
-{{- printf "%s.%s.govirto.com" $name .Release.Namespace }}
+{{- printf "%s.%s.govirto.com" .Release.Name .Release.Namespace }}
 {{- end -}}
 
 {{- define "db.connection_string" -}}
