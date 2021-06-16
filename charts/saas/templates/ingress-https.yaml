@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   name: {{ template "env.app_name" . }}-ingress-https
@@ -13,7 +13,7 @@ spec:
   tls:
     - hosts:   
       - "{{ template "platform.host" . }}"
-      secretName: {{ .Values.ingress.cert | default wildcard-saas-tls}}
+      secretName: {{ .Values.ingress.cert | default "wildcard-saas-tls" }}
   rules:
   - host: {{ template "platform.host" . }}
     http:

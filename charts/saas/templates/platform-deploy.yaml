@@ -39,11 +39,11 @@ spec:
         image: "{{ .Values.platform.image.repository }}:{{ .Values.platform.image.tag }}"
         resources:
             requests:
-              memory: {{ .Values.platform.resources.requests.memory | default 512Mi | quote }}
-              cpu: {{ .Values.platform.resources.requests.cpu| default 50m | quote }}
+              memory: {{ .Values.platform.resources.requests.memory | default "512Mi" }}
+              cpu: {{ .Values.platform.resources.requests.cpu| default "50m" }}
             limits:
-              memory: {{ .Values.platform.resources.limits.memory | default 512Mi | quote }}
-              cpu: {{ .Values.platform.resources.limits.cpu | default 100m | quote }}
+              memory: {{ .Values.platform.resources.limits.memory | default "512Mi" }}
+              cpu: {{ .Values.platform.resources.limits.cpu | default "100m" }}
         envFrom:
         - configMapRef:
             name: {{ template "env.app_name" . }}-platform-cm
