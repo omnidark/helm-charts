@@ -1,38 +1,24 @@
-{{- if eq .Values.ingress.ssl true }}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: {{ template "env.naming" . }}-traefik-ingress-https
+  name: {{ template "env.app_name" . }}-ingress-https
   labels:
-    release: {{ template "env.naming" . }}
+    {{- include "app.labels" . | nindent 4 }}
   annotations:
-    kubernetes.io/ingress.class: {{ .Values.ingress.class | default "traefik" }}
-    {{- if and (eq .Values.ingress.class "traefik") (eq .Values.ingress.ssl true) }}
-    traefik.ingress.kubernetes.io/router.tls: "true"
-    traefik.ingress.kubernetes.io/router.middlewares: "{{ .Release.Namespace }}-{{ template "env.naming" . }}-https-redirect@kubernetescrd"
-    {{- end }}
-    cert-manager.io/cluster-issuer: {{ .Values.certmanager.cluster_issuer }}
+    kubernetes.io/ingress.class: {{ .Values.ingress.class | default "nginx" }}
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/custom-http-errors: "503"
+    nginx.ingress.kubernetes.io/default-backend: {{ .Values.saas.template }}-error-page
 spec:
   tls:
-    - hosts: 
-      - "{{ template "storefront.host" . }}"
-      secretName: "{{ template "env.naming" . }}-{{ .Values.storefront.service.name }}-{{ .Release.Namespace }}-tls"
     - hosts:   
       - "{{ template "platform.host" . }}"
-      secretName: "{{ template "env.naming" . }}-{{ .Values.platform.service.name }}-{{ .Release.Namespace }}-tls"
+      secretName: {{ .Values.ingress.cert | default wildcard-saas-tls}}
   rules:
-  - host: {{ template "storefront.host" . }}
-    http:
-      paths:
-      - backend:
-          serviceName: "{{ template "env.naming" . }}-{{ .Values.storefront.service.name }}"
-          servicePort: {{ .Values.storefront.service.externalPort }}
-        path: /
   - host: {{ template "platform.host" . }}
     http:
       paths:
       - backend:
-          serviceName: "{{ template "env.naming" . }}-{{ .Values.platform.service.name }}"
+          serviceName: "{{ template "env.app_name" . }}-{{ .Values.platform.service.name }}"
           servicePort: {{ .Values.platform.service.externalPort }}
         path: /
-{{- end }}
