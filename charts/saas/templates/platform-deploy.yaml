@@ -73,7 +73,7 @@ spec:
           claimName: {{ template "env.app_name" . }}-cms-content-volume
       - name: modules-data
         persistentVolumeClaim:
-          claimName: {{ .Values.saas.template | default "startup-modules-volume" }} 
+          claimName: {{ printf "%s-modules-volume" .Values.saas.template | default "startup-modules-volume" }} 
   strategy:
     blueGreen:
       activeService: {{ template "env.app_name" . }}-{{ .Values.platform.service.name }}
