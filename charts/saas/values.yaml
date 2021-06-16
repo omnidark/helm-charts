@@ -23,6 +23,35 @@ platform:
     secrets: 
       secret_name: "template"
     custom_secrets: false
+    config: |
+      "auto_auth" = {
+        "method" = {
+          "config" = {
+            "role" = "myapp"
+          }
+          "type" = "kubernetes"
+        }
+
+        "sink" = {
+          "config" = {
+            "path" = "/home/vault/.token"
+          }
+
+          "type" = "file"
+        }
+      }
+
+      "exit_after_auth" = true
+      "pid_file" = "/home/vault/.pid"
+
+      "template" = {
+        "source" = "/vault/configs/secrets.hcl"
+        "destination" = "/vault/secrets/config"
+      }
+
+      "vault" = {
+        "address" = {{ .Values.platform.vault.api_url | default "http://vault.hashicorp-vault.svc.cluster.local:8200" }}
+      }
   resources:
     requests:
       memory:
