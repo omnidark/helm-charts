@@ -9,14 +9,15 @@ data:
   Swagger__UI__Enabled: "false"
   PushNotifications__ForceWebSockets: "true"
   PushNotifications__ScalabilityMode: "RedisBackplane"
-  PushNotifications__HubUrl: "{{ template "platform.host" . }}/pushNotificationHub"
-  PushNotifications__RedisBackplane__ChannelName: {{ template "env.app_name" . }}-{{ .Release.Namespace }}-chanel"
+  PushNotifications__HubUrl: "https://{{ template "platform.host" . }}/pushNotificationHub"
+  PushNotifications__RedisBackplane__ChannelName: "{{ template "env.app_name" . }}-{{ .Release.Namespace }}-chanel"
   Search__ElasticSearch__Server: http://search-dev-es-http.elastic-system:9200
   Search__ElasticSearch__User: {{ template "env.app_name" . }}-{{ .Release.Namespace }}
   AzureAd__Enabled: "true"
   Search__Scope: "{{ template "env.app_name" . }}-{{ .Release.Namespace }}"
-  Content__FileSystem__PublicUrl: {{ template "platform.host" . }}/cms-content/
-  Assets__FileSystem__PublicUrl: {{ template "platform.host" . }}/cms-content/assets/
+  Content__FileSystem__PublicUrl: "https://{{ template "platform.host" . }}/cms-content/"
+  Assets__FileSystem__PublicUrl: "https://{{ template "platform.host" . }}/cms-content/assets/"
+  Search__Provider: ElasticSearch
   VirtoCommerce__LicenseFilePath: app_data/VirtoCommerce.lic
   VirtoCommerce__LicensePublicKeyPath: app_data/public.key
   VirtoCommerce__LicensePrivateKeyPath: app_data/private.key
