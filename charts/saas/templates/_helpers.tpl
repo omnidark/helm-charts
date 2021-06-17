@@ -1,5 +1,5 @@
 {{- define "env.app_name" -}}
-{{- printf .Release.Name }}
+{{- printf .Release.Name | default "saas" }}
 {{- end -}}
 
 {{- define "platform.host" -}}
@@ -22,26 +22,26 @@
 {{- printf "%s,password={{ .Data.REDIS_PASS }},ssl=False,abortConnect=False,channelPrefix=%s" $redis_service $chanel_prefix -}}
 {{- end -}}
 
-
 {{- define "vault.secrets" -}}
-{{- printf "{{ with secret \"secret/elastic\" }}" }}
-{{- printf "export Search__ElasticSearch__Key={{ .Data.ELASTIC_PASS }}" }}
-{{- printf "{{ end }}" }}
-{{- printf "{{ with secret \"secret/redis\" }}" }}
-{{- printf "export ConnectionStrings__RedisConnectionString=%s" (include "redis.connection_string" .) }}
-{{- printf "{{ end }}" }}
-{{- printf "{{ with secret \"secret/mssql\" }}" }}
-{{- printf "export ConnectionStrings__VirtoCommerce=%s" (include "db.connection_string" .) }}
-{{- printf "{{ end }}" }}
-{{- range $secret, $template := .Values.platform.vault.secrets }}
-{{- printf "{{ with secret \"secret/%s\" }}" $secret }}
-{{- printf "{{ export %s }}" $template }}
-{{- printf "{{ end }}" }}
-{{- end -}}
-{{- end -}}
+{{ println "{{ with secret \"secret/elastic\" }}" }}
+{{ println "export Search__ElasticSearch__Key={{ .Data.ELASTIC_PASS }}" }}
+{{ println "{{ end }}" }}
+{{ println "{{ with secret \"secret/redis\" }}" }}
+{{ println "export ConnectionStrings__RedisConnectionString=%s\n" (include "redis.connection_string" .) }}
+{{ println "{{ end }}" }}
+{{ println "{{ with secret \"secret/mssql\" }}" }}
+{{ println "export ConnectionStrings__VirtoCommerce=%s" (include "db.connection_string" .)  }}
+{{ println "{{ end }}" }}
+{{ range $secret, $template := .Values.platform.vault.secrets }}
+{{ println "{{ with secret \"secret/%s\" }}" $secret }}
+{{ println "{{ export %s }}" $template }}
+{{ println "{{ end }}" }}
+{{ end }}
+{{ end }}
+
 
 {{/*
-Create chart name and version as used by the chart label.
+Create chart name and version as used by the chart label. {{- define "vault.secrets" -}}
 */}}
 {{- define "app.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
