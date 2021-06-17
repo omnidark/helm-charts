@@ -26,14 +26,14 @@
 {{ println "export Search__ElasticSearch__Key={{ .Data.ELASTIC_PASS }}" }}
 {{ println "{{ end }}" }}
 {{ println "{{ with secret \"secret/redis\" }}" }}
-{{ println "export ConnectionStrings__RedisConnectionString=%s" (include "redis.connection_string" .) }}
+{{ println "export ConnectionStrings__RedisConnectionString=" (include "redis.connection_string" .) }}
 {{ println "{{ end }}" }}
 {{ println "{{ with secret \"secret/mssql\" }}" }}
-{{ println "export ConnectionStrings__VirtoCommerce=%s" (include "db.connection_string" .)  }}
+{{ println "export ConnectionStrings__VirtoCommerce=" (include "db.connection_string" .)  }}
 {{ println "{{ end }}" }}
 {{ range $secret, $template := .Values.platform.vault.secrets }}
-{{ println "{{ with secret \"secret/%s\" }}" $secret }}
-{{ println "{{ export %s }}" $template }}
+{{ println "{{ with secret \"secret/$secret\" }}" }}
+{{ println "{{ export $template }}" }}
 {{ println "{{ end }}" }}
 {{ end }}
 {{ end }}
