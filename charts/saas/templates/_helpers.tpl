@@ -34,6 +34,13 @@
 {{ printf "{{ with secret \"secret/saas-mssql\" }}" }}
 {{ printf "export ConnectionStrings__VirtoCommerce=\"%s\"" $db }}
 {{ printf "{{ end }}" }}
+{{ if .Values.platform.vault.secrets }}
+{{ range $secret, $template := .Values.platform.vault.secrets }}
+{{ printf "{{ with secret \"secret/%s\" }}" $secret }}
+{{ printf "export %s" $template }}
+{{ printf "{{ end }}" }}
+{{ end }}
+{{ end }}
 {{ end }}
 
 {{- define "platform.configmaps" -}}
