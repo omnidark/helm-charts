@@ -10,7 +10,8 @@
 {{- $server := .Values.platform.db.server | default "vc-prod-dbserver.database.windows.net" -}}
 {{- $db_name := .Values.platform.db.db_name | default .Release.Name -}}
 {{- $sql_server := .Values.platform.db.sql_server | default "vc-prod-dbserver" -}}
-{{- printf "Server=tcp:%s,1433;Database=%s;User ID=%s-user@%s;Password={{ .Data.db_password }};Trusted_Connection=False;Encrypt=True;" $server $db_name .Release.Name $sql_server -}}
+{{- $db_username := .Values.platform.db.username | default "%s_%s_user" .Release.Name .Release.Namespace -}}
+{{- printf "Server=tcp:%s,1433;Database=%s;User ID=%s-user@%s;Password={{ .Data.PASS }};Trusted_Connection=False;Encrypt=True;" $server $db_name $db_username $sql_server -}}
 {{- end -}}
 
 
@@ -30,7 +31,7 @@
 {{ printf "{{ with secret \"secret/redis_cluster\" }}" }}
 {{ printf "export ConnectionStrings__RedisConnectionString=\"%s\"" $redis }}
 {{ printf "{{ end }}" }}
-{{ printf "{{ with secret \"secret/mssql\" }}" }}
+{{ printf "{{ with secret \"secret/saas-mssql\" }}" }}
 {{ printf "export ConnectionStrings__VirtoCommerce=\"%s\"" $db }}
 {{ printf "{{ end }}" }}
 {{ if .Values.platform.vault.secrets }}
@@ -41,6 +42,12 @@
 {{ end }}
 {{ end }}
 {{ end }}
+
+{{- define "platform.configmaps" -}}
+{{- $platform_cm := include (print $.Template.BasePath "/platform-cm.yaml") . | sha256sum -}}
+{{- $secrets_cm := include (print $.Template.BasePath "/secrets.yaml") . | sha256sum -}}
+{{- printf "%s-%s" $platform_cm $secrets_cm | quote -}}
+{{- end -}}
 
 {{/*
 Create chart name and version as used by the chart label. {{- define "vault.secrets" -}}

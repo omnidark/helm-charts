@@ -15,7 +15,7 @@ platform:
   db:
     server:
     db_name:
-    sql_username:
+    username:
     sql_server:
   vault:
     api_urls: 

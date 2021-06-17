@@ -17,6 +17,7 @@ spec:
         vault.hashicorp.com/agent-init-first: "true"
         vault.hashicorp.com/agent-requests-cpu: "25m"
         vault.hashicorp.com/agent-limits-cpu: "55m"
+        checksum/config: {{ template "platform.configmaps" . }}
         vault.hashicorp.com/agent-configmap: "{{ template "env.app_name" . }}-platform-secret-configmap" 
       labels:
         {{- include "app.selectorLabels" . | nindent 8 }}
@@ -54,7 +55,7 @@ spec:
           - "/bin/bash"
           - "-c"
         args:
-          - "cat /vault/secrets/config && source /vault/secrets/config && dotnet VirtoCommerce.Platform.Web.dll"
+          - "source /vault/secrets/config && echo start && dotnet VirtoCommerce.Platform.Web.dll"
         ports:
         - containerPort: {{ .Values.platform.service.internalPort }}
         startupProbe:
