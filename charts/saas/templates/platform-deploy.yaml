@@ -47,6 +47,9 @@ spec:
         envFrom:
         - configMapRef:
             name: {{ template "env.app_name" . }}-platform-cm
+        envFrom:
+        - configMapRef:
+            name: {{ template "env.app_name" . }}-platform-secret-configmap
         command:
           - "/bin/bash"
           - "-c"

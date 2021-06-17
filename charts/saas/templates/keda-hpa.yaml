@@ -1,3 +1,4 @@
+{{- if eq .Values.hpa.enabled true }}
 apiVersion: keda.sh/v1alpha1
 kind: ScaledObject
 metadata:
@@ -20,4 +21,5 @@ spec:
         serverAddress: http://prometheus-k8s.monitoring.svc:9090
         metricName: nginx_ingress_controller_requests
         threshold: '100'
-        query: sum(round(increase(nginx_ingress_controller_requests{ingress="{{ template "env.app_name" . }}-ingress-https"}[5m])))
+        query: sum(round(increase(nginx_ingress_controller_requests{ingress="{{ template "env.app_name" . }}-ingress-https"}[{{ .Values.hpa.keda.life_time }}])))
+{{- end }}

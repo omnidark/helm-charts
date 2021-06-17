@@ -19,8 +19,7 @@ platform:
     sql_server:
   vault:
     api_urls: 
-    secrets: 
-      secret_name: "template"
+    secrets: {}
     custom_secrets: false
     config:
   resources:
@@ -38,7 +37,11 @@ storage:
   storageClassName:
   modulesVolume:
   
-
+hpa:
+  keda:
+    life_time: 1h
+  enabled: true
+  replicas: 2
 ingress:
   class: nginx
   cert:
