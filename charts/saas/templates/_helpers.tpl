@@ -9,9 +9,8 @@
 {{- define "db.connection_string" -}}
 {{- $server := .Values.platform.db.server | default "vc-prod-dbserver.database.windows.net" -}}
 {{- $db_name := .Values.platform.db.db_name | default .Release.Name -}}
-{{- $sql_username := .Values.platform.db.sql_username | default | printf "%s-user" .Release.Name -}}
 {{- $sql_server := .Values.platform.db.sql_server | default "vc-prod-dbserver" -}}
-{{- printf "Server=tcp:%s,1433;Database=%s;User ID=%s@%s;Password={{ .Data.db_password }};Trusted_Connection=False;Encrypt=True;" $server $db_name $sql_username $sql_server -}}
+{{- printf "Server=tcp:%s,1433;Database=%s;User ID=%s-user@%s;Password={{ .Data.db_password }};Trusted_Connection=False;Encrypt=True;" $server $db_name .Release.Name $sql_server -}}
 {{- end -}}
 
 
@@ -27,7 +26,7 @@
 {{ println "export Search__ElasticSearch__Key={{ .Data.ELASTIC_PASS }}" }}
 {{ println "{{ end }}" }}
 {{ println "{{ with secret \"secret/redis\" }}" }}
-{{ println "export ConnectionStrings__RedisConnectionString=%s\n" (include "redis.connection_string" .) }}
+{{ println "export ConnectionStrings__RedisConnectionString=%s" (include "redis.connection_string" .) }}
 {{ println "{{ end }}" }}
 {{ println "{{ with secret \"secret/mssql\" }}" }}
 {{ println "export ConnectionStrings__VirtoCommerce=%s" (include "db.connection_string" .)  }}
