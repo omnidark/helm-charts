@@ -8,10 +8,10 @@
 
 {{- define "db.connection_string" -}}
 {{- $server := .Values.platform.db.server | default "vc-prod-dbserver.database.windows.net" -}}
-{{- $db_name := .Values.platform.db.db_name | default .Release.Name -}}
+{{- $db_name := .Values.platform.db.db_name | default "%s-platform_saas" .Release.Name -}}
 {{- $sql_server := .Values.platform.db.sql_server | default "vc-prod-dbserver" -}}
 {{- $db_username := .Values.platform.db.username | default "%s_%s_user" .Release.Name .Release.Namespace -}}
-{{- printf "Server=tcp:%s,1433;Database=%s;User ID=%s-user@%s;Password={{ .Data.PASS }};Trusted_Connection=False;Encrypt=True;" $server $db_name $db_username $sql_server -}}
+{{- printf "Server=tcp:%s,1433;Database=%s;User ID=%s@%s;Password={{ .Data.PASS }};Trusted_Connection=False;Encrypt=True;" $server $db_name $db_username $sql_server -}}
 {{- end -}}
 
 
