@@ -68,11 +68,15 @@ spec:
           successThreshold: 1
           initialDelaySeconds: 20
           periodSeconds: 10
+          timeoutSeconds: 9
         volumeMounts:
         - mountPath: "/opt/virtocommerce/platform/wwwroot/cms-content"
           name: cms-content-data
         - mountPath: "/opt/virtocommerce/platform/modules"
           name: modules-data
+      {{- if .Values.platform.nodeSelector }}
+      nodeSelector: {{ toYaml .Values.platform.nodeSelector | nindent 8 }}
+      {{- end }}
       volumes:
       - name: cms-content-data
         persistentVolumeClaim:

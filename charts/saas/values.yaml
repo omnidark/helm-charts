@@ -22,6 +22,8 @@ platform:
     secrets: {}
     custom_secrets: false
     config:
+  nodeSelector:
+    agentpool: apool
   resources:
     requests:
       memory:
