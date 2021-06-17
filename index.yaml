@@ -16,6 +16,18 @@ entries:
   virtocommerce-saas:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2021-06-17T11:01:09.068592533Z"
+    description: SaaS solution
+    digest: d078b1cbcc211bda753e8b4bace3582826c548e9d066f63c7dc4e41359517011
+    maintainers:
+    - email: konstantin.kisilevsky@virtoway.com
+      name: Konstantin Kisilevskiy
+    name: virtocommerce-saas
+    urls:
+    - https://github.com/omnidark/helm-charts/releases/download/virtocommerce-saas-1.2.12/virtocommerce-saas-1.2.12.tgz
+    version: 1.2.12
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2021-06-17T10:33:21.45452908Z"
     description: SaaS solution
     digest: a4cab78b14158a32fceaa9f1fe6f70dc605a6c8fc0f5b3e11407df2829d1af3b
