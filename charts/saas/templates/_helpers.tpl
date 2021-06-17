@@ -16,9 +16,9 @@
 
 
 {{- define "redis.connection_string" -}}
-{{- $redis_service := .Values.platform.redis.service | default "redis-master.redis:6379" -}}
+{{- $redis_service := .Values.platform.redis.service | default "redis-cluster.redis:6379" -}}
 {{- $chanel_prefix := .Values.platform.redis.chanel | default "%s-%s-chanel" .Release.Name .Release.Namespace -}}
-{{- printf "%s,password={{ .Data.REDIS_PASS }},ssl=False,abortConnect=False,channelPrefix=%s" $redis_service $chanel_prefix -}}
+{{- printf "%s,password={{ .Data.REDIS_CLUSTER_PASS }},ssl=False,abortConnect=False,channelPrefix=%s" $redis_service $chanel_prefix -}}
 {{- end -}}
 
 {{- define "vault.secrets" -}}
@@ -27,7 +27,7 @@
 {{ printf "{{ with secret \"secret/elastic\" }}" }}
 {{ printf "export Search__ElasticSearch__Key={{ .Data.ELASTIC_PASS }}" }}
 {{ printf "{{ end }}" }}
-{{ printf "{{ with secret \"secret/redis\" }}" }}
+{{ printf "{{ with secret \"secret/redis_cluster\" }}" }}
 {{ printf "export ConnectionStrings__RedisConnectionString=\"%s\"" $redis }}
 {{ printf "{{ end }}" }}
 {{ printf "{{ with secret \"secret/mssql\" }}" }}
@@ -36,7 +36,7 @@
 {{ if .Values.platform.vault.secrets }}
 {{ range $secret, $template := .Values.platform.vault.secrets }}
 {{ printf "{{ with secret \"secret/%s\" }}" $secret }}
-{{ printf "export%s " $template }}
+{{ printf "export %s" $template }}
 {{ printf "{{ end }}" }}
 {{ end }}
 {{ end }}
