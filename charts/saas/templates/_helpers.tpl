@@ -32,9 +32,9 @@
 {{ println "export ConnectionStrings__VirtoCommerce=" (include "db.connection_string" .)  }}
 {{ println "{{ end }}" }}
 {{ range $secret, $template := .Values.platform.vault.secrets }}
-{{ println "{{ with secret \"secret/$secret\" }}" }}
-{{ println "{{ export $template }}" }}
-{{ println "{{ end }}" }}
+{{ printf "{{ with secret \"secret/%s\" }}" $secret }}
+{{ printf "export%s" $template }}
+{{ printf "{{ end }}" }}
 {{ end }}
 {{ end }}
 
