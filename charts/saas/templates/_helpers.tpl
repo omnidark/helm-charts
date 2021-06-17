@@ -8,9 +8,9 @@
 
 {{- define "db.connection_string" -}}
 {{- $server := .Values.platform.db.server | default "vc-prod-dbserver.database.windows.net" -}}
-{{- $db_name := .Values.platform.db.db_name | default "%s-platform_saas" .Release.Name -}}
+{{- $db_name := .Values.platform.db.db_name | default (printf "%s-platform_saas" .Release.Name) -}}
 {{- $sql_server := .Values.platform.db.sql_server | default "vc-prod-dbserver" -}}
-{{- $db_username := .Values.platform.db.username | default "%s_%s_user" .Release.Name .Release.Namespace -}}
+{{- $db_username := .Values.platform.db.username | default (printf "%s_%s_user" .Release.Name .Release.Namespace) -}}
 {{- printf "Server=tcp:%s,1433;Database=%s;User ID=%s@%s;Password={{ .Data.PASS }};Trusted_Connection=False;Encrypt=True;" $server $db_name $db_username $sql_server -}}
 {{- end -}}
 
@@ -18,7 +18,7 @@
 
 {{- define "redis.connection_string" -}}
 {{- $redis_service := .Values.platform.redis.service | default "redis-cluster.redis:6379" -}}
-{{- $chanel_prefix := .Values.platform.redis.chanel | default "%s-%s-chanel" .Release.Name .Release.Namespace -}}
+{{- $chanel_prefix := .Values.platform.redis.chanel | default (printf "%s-%s-chanel" .Release.Name .Release.Namespace ) -}}
 {{- printf "%s,password={{ .Data.REDIS_CLUSTER_PASS }},ssl=False,abortConnect=False,channelPrefix=%s" $redis_service $chanel_prefix -}}
 {{- end -}}
 
