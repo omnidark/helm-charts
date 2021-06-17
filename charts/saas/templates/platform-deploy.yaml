@@ -9,6 +9,9 @@ spec:
     matchLabels:
       {{- include "app.selectorLabels" . | nindent 6 }}
   revisionHistoryLimit: 2
+  {{- if eq .Values.hpa.enabled false }}
+  replicas: {{ .Values.hpa.replicas | default 2 }}
+  {{- end }}
   template:
     metadata:
       annotations:
