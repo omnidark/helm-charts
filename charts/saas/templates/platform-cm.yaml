@@ -14,7 +14,7 @@ data:
   Search__ElasticSearch__Server: http://search-dev-es-http.elastic-system:9200
   Search__ElasticSearch__User: {{ template "env.app_name" . }}-{{ .Release.Namespace }}
   AzureAd__Enabled: "true"
-  Search__Scope: "{{ template "env.app_name" . }}-{{ .Release.Namespace }}"
+  Search__Scope: "{{ template "env.app_name" . }}-platform{{ .Release.Namespace }}"
   Content__FileSystem__PublicUrl: "https://{{ template "platform.host" . }}/cms-content/"
   Assets__FileSystem__PublicUrl: "https://{{ template "platform.host" . }}/cms-content/assets/"
   Search__Provider: ElasticSearch
