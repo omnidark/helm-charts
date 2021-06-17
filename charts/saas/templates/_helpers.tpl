@@ -22,14 +22,16 @@
 {{- end -}}
 
 {{- define "vault.secrets" -}}
+{{- $redis := (include "redis.connection_string" .) -}}
+{{- $db := (include "db.connection_string" .) -}}
 {{ println "{{ with secret \"secret/elastic\" }}" }}
 {{ println "export Search__ElasticSearch__Key={{ .Data.ELASTIC_PASS }}" }}
 {{ println "{{ end }}" }}
 {{ println "{{ with secret \"secret/redis\" }}" }}
-{{ println "export ConnectionStrings__RedisConnectionString=" (include "redis.connection_string" .) }}
+{{ println "export ConnectionStrings__RedisConnectionString=%s" $redis }}
 {{ println "{{ end }}" }}
 {{ println "{{ with secret \"secret/mssql\" }}" }}
-{{ println "export ConnectionStrings__VirtoCommerce=" (include "db.connection_string" .)  }}
+{{ println "export ConnectionStrings__VirtoCommerce=%s" $db }}
 {{ println "{{ end }}" }}
 {{ if .Values.platform.vault.secrets }}
 {{ range $secret, $template := .Values.platform.vault.secrets }}
