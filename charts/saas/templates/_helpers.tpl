@@ -24,15 +24,15 @@
 {{- define "vault.secrets" -}}
 {{- $redis := (include "redis.connection_string" .) | trimPrefix " " -}}
 {{- $db := (include "db.connection_string" .) | trimPrefix " " -}}
-{{ println "{{ with secret \"secret/elastic\" }}" }}
-{{ println "export Search__ElasticSearch__Key={{ .Data.ELASTIC_PASS }}" }}
-{{ println "{{ end }}" }}
-{{ println "{{ with secret \"secret/redis\" }}" }}
-{{ println "export ConnectionStrings__RedisConnectionString=" $redis }}
-{{ println "{{ end }}" }}
-{{ println "{{ with secret \"secret/mssql\" }}" }}
-{{ println "export ConnectionStrings__VirtoCommerce=" $db }}
-{{ println "{{ end }}" }}
+{{ printf "{{ with secret \"secret/elastic\" }}" }}
+{{ printf "export Search__ElasticSearch__Key={{ .Data.ELASTIC_PASS }}" }}
+{{ printf "{{ end }}" }}
+{{ printf "{{ with secret \"secret/redis\" }}" }}
+{{ printf "export ConnectionStrings__RedisConnectionString=\"%s\"" $redis }}
+{{ printf "{{ end }}" }}
+{{ printf "{{ with secret \"secret/mssql\" }}" }}
+{{ printf "export ConnectionStrings__VirtoCommerce=\"%s\"" $db }}
+{{ printf "{{ end }}" }}
 {{ if .Values.platform.vault.secrets }}
 {{ range $secret, $template := .Values.platform.vault.secrets }}
 {{ printf "{{ with secret \"secret/%s\" }}" $secret }}
