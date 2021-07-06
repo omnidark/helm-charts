@@ -74,8 +74,8 @@ spec:
         volumeMounts:
         - mountPath: "/opt/virtocommerce/platform/wwwroot/cms-content"
           name: cms-content-data
-        - mountPath: "/opt/virtocommerce/platform/modules"
-          name: modules-data
+        # - mountPath: "/opt/virtocommerce/platform/modules"
+        #   name: modules-data
       {{- if .Values.platform.nodeSelector }}
       nodeSelector: {{ toYaml .Values.platform.nodeSelector | nindent 8 }}
       {{- end }}
@@ -83,9 +83,9 @@ spec:
       - name: cms-content-data
         persistentVolumeClaim:
           claimName: {{ template "env.app_name" . }}-cms-content-volume
-      - name: modules-data
-        persistentVolumeClaim:
-          claimName: {{ printf "%s-modules-volume" .Values.saas.template | default "startup-modules-volume" }} 
+      # - name: modules-data
+      #   persistentVolumeClaim:
+      #     claimName: {{ printf "%s-modules-volume" .Values.saas.template | default "startup-modules-volume" }} 
   strategy:
     blueGreen:
       activeService: {{ template "env.app_name" . }}-{{ .Values.platform.service.name }}
