@@ -4,8 +4,9 @@ platform:
     internalPort: 80
     externalPort: 80 
   image:
-    repository: docker.pkg.github.com/virtocommerce/vc-platform/platform
-    tag: 3.61.0-master-c3e90e75
+    repository: ghcr.io/virtocommerce/vc-deploy-containers/vc-platform-image
+    tag: stable
+    pullsecret: dockerconfigjson-github-com
   config: {}
   redis:
     service:
