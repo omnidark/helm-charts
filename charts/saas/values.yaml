@@ -35,6 +35,7 @@ platform:
 saas:
   template: startup
   sa:
+  error_page: main
 
 storage:
   capacity: 
