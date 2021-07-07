@@ -34,6 +34,7 @@ platform:
       cpu:
 saas:
   template: startup
+  sa:
 
 storage:
   capacity: 
