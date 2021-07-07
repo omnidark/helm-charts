@@ -26,6 +26,7 @@ data:
   VirtoCommerce__RefreshProbingFolderOnStart: "false"
   VirtoCommerce__ProbingPath: "app_data/modules"
   Caching__CacheSlidingExpiration: "0:01:00"
+  ExternalModules__ModulesManifestUrl: ""
   ExternalModules__AutoInstallModuleBundles: |
     [
       "none"
