@@ -66,11 +66,10 @@ spec:
           httpGet:
             path: /health
             port: 80
-          failureThreshold: 50
+          failureThreshold: 1000
           successThreshold: 1
-          initialDelaySeconds: 10
-          periodSeconds: 10
-          timeoutSeconds: 8
+          initialDelaySeconds: 20
+          periodSeconds: 1
         volumeMounts:
         - mountPath: "/opt/virtocommerce/platform/wwwroot/cms-content"
           name: cms-content-data
