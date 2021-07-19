@@ -64,7 +64,7 @@ spec:
         - containerPort: {{ .Values.platform.service.internalPort }}
         startupProbe:
           httpGet:
-            path: /
+            path: /health
             port: 80
           failureThreshold: 50
           successThreshold: 1
