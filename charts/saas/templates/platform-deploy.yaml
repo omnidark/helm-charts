@@ -68,7 +68,7 @@ spec:
             - sh
             - -c
             - curl --fail http://localhost:80/health
-          initialDelaySeconds: 30
+          initialDelaySeconds: 15
           failureThreshold: 60
           periodSeconds: 5
           timeoutSeconds: 5
