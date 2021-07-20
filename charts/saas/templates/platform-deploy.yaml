@@ -62,16 +62,13 @@ spec:
           - "source /vault/secrets/config && echo start && dotnet VirtoCommerce.Platform.Web.dll"
         ports:
         - containerPort: {{ .Values.platform.service.internalPort }}
-        startupProbe:
-          exec:
-            command:
-            - sh
-            - -c
-            - curl --fail http://localhost:80/health
+        readinessProbe:
+          httpGet:
+              path: /health
+              port: 80
           initialDelaySeconds: 15
-          failureThreshold: 60
-          periodSeconds: 5
-          timeoutSeconds: 3
+          failureThreshold: 300
+          periodSeconds: 1
         volumeMounts:
         - mountPath: "/opt/virtocommerce/platform/wwwroot/cms-content"
           name: cms-content-data
