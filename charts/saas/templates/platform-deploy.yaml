@@ -63,13 +63,14 @@ spec:
         ports:
         - containerPort: {{ .Values.platform.service.internalPort }}
         startupProbe:
-          httpGet:
-            path: /health
-            port: 80
+          exec:
+            command:
+            - sh
+            - -c
+            - curl --fail http://localhost:80/health
           initialDelaySeconds: 30
           failureThreshold: 60
-          periodSeconds: 5
-          timeoutSeconds: 5
+          periodSeconds: 1
         volumeMounts:
         - mountPath: "/opt/virtocommerce/platform/wwwroot/cms-content"
           name: cms-content-data
