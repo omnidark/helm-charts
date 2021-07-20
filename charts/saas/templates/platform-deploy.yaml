@@ -69,6 +69,7 @@ spec:
           initialDelaySeconds: 30
           failureThreshold: 60
           periodSeconds: 5
+          timeoutSeconds: 5
         volumeMounts:
         - mountPath: "/opt/virtocommerce/platform/wwwroot/cms-content"
           name: cms-content-data
