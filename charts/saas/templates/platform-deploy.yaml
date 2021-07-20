@@ -67,8 +67,8 @@ spec:
               path: /health
               port: 80
           initialDelaySeconds: 15
-          failureThreshold: 300
-          periodSeconds: 1
+          failureThreshold: 100
+          periodSeconds: 3
         volumeMounts:
         - mountPath: "/opt/virtocommerce/platform/wwwroot/cms-content"
           name: cms-content-data
