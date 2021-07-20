@@ -66,8 +66,9 @@ spec:
           httpGet:
             path: /health
             port: 80
-          failureThreshold: 1000
-          periodSeconds: 1
+          initialDelaySeconds: 15
+          failureThreshold: 150
+          periodSeconds: 2
           successThreshold: 1
           timeoutSeconds: 1
         volumeMounts:
