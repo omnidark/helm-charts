@@ -62,7 +62,7 @@ spec:
           - "source /vault/secrets/config && echo start && dotnet VirtoCommerce.Platform.Web.dll"
         ports:
         - containerPort: {{ .Values.platform.service.internalPort }}
-        readinessProbe:
+        startupProbe:
           exec:
             command:
             - sh
