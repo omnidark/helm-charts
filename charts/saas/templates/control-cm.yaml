@@ -5,4 +5,4 @@ metadata:
   labels:
     {{- include "app.labels" . | nindent 4 }}
 data:
-  days_of_high_permomance: {{ .Values.saas.days_of_high_permomance | default "5" }}
+  days_of_high_permomance: {{ .Values.saas.days_of_high_permomance | default "5" | quote }}
