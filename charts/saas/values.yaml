@@ -36,6 +36,7 @@ saas:
   template: startup
   sa:
   error_page: main
+  days_of_high_permomance:
 
 storage:
   capacity: 

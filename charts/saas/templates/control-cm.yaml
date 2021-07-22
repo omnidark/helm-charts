@@ -1,0 +1,8 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: "{{ template "env.app_name" . }}-control-cm"
+  labels:
+    {{- include "app.labels" . | nindent 4 }}
+data:
+  days_of_high_permomance: {{ .Values.saas.days_of_high_permomance | default "5" }}
