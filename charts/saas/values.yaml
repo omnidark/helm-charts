@@ -37,6 +37,7 @@ saas:
   sa:
   error_page: main
   days_of_high_permomance:
+  tier: trial
 
 storage:
   capacity: 

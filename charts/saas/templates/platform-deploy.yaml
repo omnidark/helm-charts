@@ -43,13 +43,33 @@ spec:
       containers:
       - name: saas-platform      
         image: "{{ .Values.platform.image.repository }}:{{ .Values.platform.image.tag }}"
+        {{- if eq .Values.saas.tier "trial" }}
         resources:
-            requests:
-              memory: {{ .Values.platform.resources.requests.memory | default "512Mi" }}
-              cpu: {{ .Values.platform.resources.requests.cpu| default "50m" }}
-            limits:
-              memory: {{ .Values.platform.resources.limits.memory | default "512Mi" }}
-              cpu: {{ .Values.platform.resources.limits.cpu | default "100m" }}
+          requests:
+            memory: 512Mi
+            cpu: 350m
+          limits:
+            memory: 512Mi
+            cpu: 350m
+        {{- end }}
+        {{- if eq .Values.saas.tier "startup" }}
+        resources:
+          requests:
+            memory: 512Mi
+            cpu: 350m
+          limits:
+            memory: 512Mi
+            cpu: 500m
+        {{- end }}
+        {{- if eq .Values.saas.tier "low" }}
+        resources:
+          requests:
+            memory: 512Mi
+            cpu: 120m
+          limits:
+            memory: 512Mi
+            cpu: 130m
+        {{- end }}
         envFrom:
         - configMapRef:
             name: {{ template "env.app_name" . }}-platform-cm
