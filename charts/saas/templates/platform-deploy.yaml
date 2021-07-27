@@ -1,3 +1,4 @@
+{{- if eq .Values.saas.expired false }}
 apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
@@ -43,33 +44,13 @@ spec:
       containers:
       - name: saas-platform      
         image: "{{ .Values.platform.image.repository }}:{{ .Values.platform.image.tag }}"
-        {{- if eq .Values.saas.tier "trial" }}
         resources:
           requests:
-            memory: 512Mi
-            cpu: 350m
+            memory: {{ .Values.platform.resources.requests.memory | default "512Mi" }}
+            cpu: {{ .Values.platform.resources.requests.cpu | default "120m" }}
           limits:
-            memory: 512Mi
-            cpu: 350m
-        {{- end }}
-        {{- if eq .Values.saas.tier "startup" }}
-        resources:
-          requests:
-            memory: 512Mi
-            cpu: 350m
-          limits:
-            memory: 512Mi
-            cpu: 500m
-        {{- end }}
-        {{- if eq .Values.saas.tier "low" }}
-        resources:
-          requests:
-            memory: 512Mi
-            cpu: 120m
-          limits:
-            memory: 512Mi
-            cpu: 130m
-        {{- end }}
+            memory: {{ .Values.platform.resources.limits.memory | default "512Mi" }}
+            cpu: {{ .Values.platform.resources.limits.cpu | default "350m" }}
         envFrom:
         - configMapRef:
             name: {{ template "env.app_name" . }}-platform-cm
@@ -107,3 +88,4 @@ spec:
   strategy:
     blueGreen:
       activeService: {{ template "env.app_name" . }}-{{ .Values.platform.service.name }}
+{{- end }}
