@@ -1,0 +1,21 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ template "env.app_name" . }}-suspend-rollouts"
+  annotations:
+    argocd.argoproj.io/hook: PreSync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+spec:
+  template:
+    spec:
+      serviceAccountName: {{ .Values.saas.sa | default "main-sa-rollouts" }}
+      restartPolicy: Never
+      containers:
+      - name: argo-rollout
+        image: kkisilevsky/argo-kubectl-rollouts:latest
+        command:
+          - "bin/bash"
+          - "-c"
+        args:
+          - "kubectl argo rollouts pause -n saas {{ template "env.app_name" . }}-{{ .Values.platform.service.name }} || true && echo complete"
+  backoffLimit: 2

@@ -1,0 +1,13 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ template "env.app_name" . }}-cms-content-volume
+  labels:
+    {{- include "app.labels" . | nindent 4 }}
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: {{ .Values.storage.capacity| default "256Mi" }}
+  storageClassName: {{ .Values.storage.storageClassName | default "blob-premium-saas" }}

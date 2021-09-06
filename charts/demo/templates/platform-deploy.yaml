@@ -1,0 +1,91 @@
+{{- if eq .Values.saas.expired false }}
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: "{{ template "env.app_name" . }}-{{ .Values.platform.service.name }}"
+  labels:
+    {{- include "app.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "app.selectorLabels" . | nindent 6 }}
+  revisionHistoryLimit: 2
+  {{- if eq .Values.hpa.enabled false }}
+  replicas: {{ .Values.hpa.replicas | default 2 }}
+  {{- end }}
+  template:
+    metadata:
+      annotations:
+        vault.hashicorp.com/agent-inject: "true"
+        vault.hashicorp.com/agent-pre-populate-only: "true"
+        vault.hashicorp.com/agent-init-first: "true"
+        vault.hashicorp.com/agent-requests-cpu: "25m"
+        vault.hashicorp.com/agent-limits-cpu: "55m"
+        checksum/config: {{ template "platform.configmaps" . }}
+        vault.hashicorp.com/agent-configmap: "{{ template "env.app_name" . }}-platform-secret-configmap" 
+      labels:
+        {{- include "app.selectorLabels" . | nindent 8 }}
+    spec:
+      imagePullSecrets:
+      - name: {{ .Values.platform.image.pullsecret }}
+      terminationGracePeriodSeconds: 30
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app.kubernetes.io/instance
+                  operator: In
+                  values:
+                  - {{ template "env.app_name" . }}
+              topologyKey: topology.kubernetes.io/zone
+      containers:
+      - name: saas-platform      
+        image: "{{ .Values.platform.image.repository }}:{{ .Values.platform.image.tag }}"
+        resources:
+          requests:
+            memory: {{ .Values.platform.resources.requests.memory | default "512Mi" }}
+            cpu: {{ .Values.platform.resources.requests.cpu | default "120m" }}
+          limits:
+            memory: {{ .Values.platform.resources.limits.memory | default "512Mi" }}
+            cpu: {{ .Values.platform.resources.limits.cpu | default "350m" }}
+        envFrom:
+        - configMapRef:
+            name: {{ template "env.app_name" . }}-platform-cm
+        - configMapRef:
+            name: {{ template "env.app_name" . }}-platform-secret-configmap
+        command:
+          - "/bin/bash"
+          - "-c"
+        args:
+          - "source /vault/secrets/config && echo start && dotnet VirtoCommerce.Platform.Web.dll"
+        ports:
+        - containerPort: {{ .Values.platform.service.internalPort }}
+        readinessProbe:
+          httpGet:
+              path: /health
+              port: 80
+          initialDelaySeconds: 15
+          failureThreshold: 100
+          periodSeconds: 3
+        volumeMounts:
+        - mountPath: "/opt/virtocommerce/platform/wwwroot/cms-content"
+          name: cms-content-data
+        # - mountPath: "/opt/virtocommerce/platform/modules"
+        #   name: modules-data
+      {{- if .Values.platform.nodeSelector }}
+      nodeSelector: {{ toYaml .Values.platform.nodeSelector | nindent 8 }}
+      {{- end }}
+      volumes:
+      - name: cms-content-data
+        persistentVolumeClaim:
+          claimName: {{ template "env.app_name" . }}-cms-content-volume
+      # - name: modules-data
+      #   persistentVolumeClaim:
+      #     claimName: {{ printf "%s-modules-volume" .Values.saas.template | default "startup-modules-volume" }} 
+  strategy:
+    blueGreen:
+      activeService: {{ template "env.app_name" . }}-{{ .Values.platform.service.name }}
+{{- end }}

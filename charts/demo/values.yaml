@@ -1,0 +1,54 @@
+platform:
+  service:
+    name: platform
+    internalPort: 80
+    externalPort: 80 
+  image:
+    repository: ghcr.io/virtocommerce/vc-deploy-containers/vc-platform-image
+    tag: stable
+    pullsecret: dockerconfigjson-github-com
+  config: {}
+  redis:
+    service:
+    chanel:
+  elastic:
+    url:
+  db:
+    server:
+    db_name:
+    username:
+    sql_server:
+  vault:
+    api_urls: 
+    secrets: {}
+    custom_secrets: false
+    config:
+  nodeSelector:
+    agentpool: apool
+  resources:
+    requests:
+      memory:
+      cpu:
+    limits:
+      memory:
+      cpu:
+saas:
+  template: startup
+  sa:
+  error_page: main
+  expired: false
+  expired_page: main-expired-page
+
+storage:
+  capacity: 
+  storageClassName:
+  modulesVolume:
+  
+hpa:
+  keda:
+    life_time: 1h
+  enabled: true
+  replicas: 2
+ingress:
+  class: nginx
+  cert:
