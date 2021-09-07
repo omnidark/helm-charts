@@ -5,7 +5,11 @@ metadata:
   labels:
     {{- include "app.labels" . | nindent 4 }}
 data:
+  ASPNETCORE_FORWARDEDHEADERS_ENABLED: "true"
+  VirtoCommerce__CacheEnabled: "true"
+  Swagger__UI__Enable: "true"
   ASPNETCORE_ENVIRONMENT: Development
+  CookieAuthenticationOptions__ExpireTimeSpan: "12:00:00"
   VirtoCommerce__Endpoint__Password: store
   VirtoCommerce__Endpoint__UserName: admin
   VirtoCommerce__Endpoint__Url: "http://{{ template "env.app_name" . }}-{{ .Values.platform.service.name }}.saas.svc.cluster.local"

@@ -25,8 +25,8 @@ data:
   VirtoCommerce__LocalUploadFolderPath: app_data/uploads
   VirtoCommerce__Hangfire__JobStorageType: SqlServer
   VirtoCommerce__RefreshProbingFolderOnStart: "false"
-  VC_STORE_URL_ELECTRONICS: "https://{{ template "storefront.host" . }}.govirto.com/"
-  VC_STORE_URL_B2B-STORE: "https://{{ template "storefront.host" . }}.govirto.com/B2B-store/"
+  VC_STORE_URL_ELECTRONICS: "https://{{ template "storefront.host" . }}"
+  VC_STORE_URL_B2B-STORE: "https://{{ template "storefront.host" . }}/B2B-store/"
   VirtoCommerce__ProbingPath: "app_data/modules"
   Caching__CacheSlidingExpiration: "0:01:00"
   ExternalModules__ModulesManifestUrl: ""
