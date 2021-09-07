@@ -80,3 +80,19 @@ Selector labels
 app.kubernetes.io/name: {{ .Chart.Name }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end -}}
+
+{{/*
+Platform Selector labels
+*/}}
+{{- define "app.platformLabels" -}}
+app.kubernetes.io/name: {{ .Chart.Name }}
+app.kubernetes.io/instance: {{ .Release.Name }}-platform
+{{- end -}}
+
+{{/*
+Storefront Selector labels
+*/}}
+{{- define "app.storefrontLabels" -}}
+app.kubernetes.io/name: {{ .Chart.Name }}
+app.kubernetes.io/instance: {{ .Release.Name }}-storefront
+{{- end -}}

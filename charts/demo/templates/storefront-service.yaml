@@ -9,4 +9,4 @@ spec:
   ports:
   - port: {{ .Values.storefront.service.externalPort }}
   selector:
-    {{- include "app.selectorLabels" . | nindent 4 }}
+    {{- include "app.storefrontLabels" . | nindent 4 }}

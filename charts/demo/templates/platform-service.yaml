@@ -9,4 +9,4 @@ spec:
   ports:
   - port: {{ .Values.platform.service.externalPort }}
   selector:
-    "{{ template "env.app_name" . }}-platform"
+    {{- include "app.platformLabels" . | nindent 4 }}

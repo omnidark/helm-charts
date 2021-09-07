@@ -8,15 +8,13 @@ metadata:
 spec:
   selector:
     matchLabels:
-      "{{ template "env.app_name" . }}-storefront"
-      {{- include "app.selectorLabels" . | nindent 6 }}
+      {{- include "app.storefrontLabels" . | nindent 6 }}
   revisionHistoryLimit: 1
   replicas: 1
   template:
     metadata:
       labels:
-        "{{ template "env.app_name" . }}-storefront"
-        {{- include "app.selectorLabels" . | nindent 8 }}
+        {{- include "app.storefrontLabels" . | nindent 8 }}
     spec:
       imagePullSecrets:
       - name: {{ .Values.platform.image.pullsecret }}
