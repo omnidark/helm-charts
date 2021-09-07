@@ -16,6 +16,18 @@ entries:
   virtocommerce-demo:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2021-09-07T10:42:14.592732915Z"
+    description: Demo solution
+    digest: 07752f715cf3509796c370b7db52ba2919f201572e4c0d0e4caa02737fb23cbd
+    maintainers:
+    - email: konstantin.kisilevsky@virtoway.com
+      name: Konstantin Kisilevskiy
+    name: virtocommerce-demo
+    urls:
+    - https://github.com/omnidark/helm-charts/releases/download/virtocommerce-demo-1.0.7/virtocommerce-demo-1.0.7.tgz
+    version: 1.0.7
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2021-09-07T10:41:30.933174928Z"
     description: Demo solution
     digest: 97d230dfeac3853f0aca077280f6622b9afb1551b1b1768a280dfb13f1e1f4cb
