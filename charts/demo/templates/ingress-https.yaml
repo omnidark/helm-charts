@@ -35,7 +35,7 @@ spec:
           {{- end }} 
           servicePort: {{ .Values.platform.service.externalPort }}
         path: /
-   - host: {{ template "storefront.host" . }}
+  - host: {{ template "storefront.host" . }}
     http:
       paths:
       - backend:
