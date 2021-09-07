@@ -1,0 +1,55 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ template "env.app_name" . }}-{{ .Values.storefront.service.name }}"
+  labels:
+    {{- include "app.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      "{{ template "env.app_name" . }}-storefront"
+      {{- include "app.selectorLabels" . | nindent 6 }}
+  revisionHistoryLimit: 1
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        "{{ template "env.app_name" . }}-storefront"
+        {{- include "app.selectorLabels" . | nindent 8 }}
+    spec:
+      imagePullSecrets:
+      - name: {{ .Values.platform.image.pullsecret }}
+      initContainers:
+      - name: init-platform
+        envFrom:
+        - configMapRef:
+            name: "{{ template "env.app_name" . }}-deployment-cm"
+        imagePullPolicy: Always
+        image: docker.pkg.github.com/virtocommerce/vc-deploy-containers/platform-installer:v3
+        command:
+          - "/bin/sh"
+          - "-c"
+        args:
+          - "echo START INIT $(date +%Y-%m-%d-%H-%M-%S)
+          && python3 installer.py $(ELECTRONICS_THEME_URL) $(ELECTRONICS_THEME_LOCATION)
+          && python3 installer.py $(B2B_THEME_URL) $(B2B_THEME_LOCATION)
+          && python3 installer.py $(ASSETS_URL) $(ASSETS_LOCATION)"
+      containers:
+      - name: vc-storefront-web
+        image: docker.pkg.github.com/virtocommerce/vc-storefront/storefront:dev-linux-latest
+        envFrom:
+        - configMapRef:
+            name: "{{ template "env.app_name" . }}-storefront-cm"
+        ports:
+        - containerPort: {{ .Values.platform.service.internalPort }}
+        volumeMounts:
+        - mountPath: /opt/virtocommerce/storefront/wwwroot/cms-content
+          name: cms-content-data
+      {{- if .Values.platform.nodeSelector }}
+      nodeSelector: {{ toYaml .Values.platform.nodeSelector | nindent 8 }}
+      {{- end }}
+      volumes:
+      - name: cms-content-data
+        persistentVolumeClaim:
+          claimName: {{ template "env.app_name" . }}-cms-content-volume

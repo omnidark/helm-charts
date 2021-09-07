@@ -1,7 +1,7 @@
-name: virtocommerce-saas
-version: 1.4.19
+name: virtocommerce-demo
+version: 1.0.1
 apiVersion: v2
-description: SaaS solution
+description: Demo solution
 maintainers:  
     - name: Konstantin Kisilevskiy
       email: konstantin.kisilevsky@virtoway.com

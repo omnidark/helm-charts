@@ -8,6 +8,7 @@ metadata:
 spec:
   selector:
     matchLabels:
+      "{{ template "env.app_name" . }}-platform"
       {{- include "app.selectorLabels" . | nindent 6 }}
   revisionHistoryLimit: 2
   {{- if eq .Values.hpa.enabled false }}
@@ -24,6 +25,7 @@ spec:
         checksum/config: {{ template "platform.configmaps" . }}
         vault.hashicorp.com/agent-configmap: "{{ template "env.app_name" . }}-platform-secret-configmap" 
       labels:
+        "{{ template "env.app_name" . }}-platform"
         {{- include "app.selectorLabels" . | nindent 8 }}
     spec:
       imagePullSecrets:
