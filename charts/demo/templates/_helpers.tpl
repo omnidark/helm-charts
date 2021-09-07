@@ -3,7 +3,11 @@
 {{- end -}}
 
 {{- define "platform.host" -}}
-{{- printf "%s.%s.govirto.com" .Release.Name .Release.Namespace }}
+{{- printf "%s-platform.%s.govirto.com" .Release.Name .Release.Namespace }}
+{{- end -}}
+
+{{- define "storefront.host" -}}
+{{- printf "%s-storefront.%s.govirto.com" .Release.Name .Release.Namespace }}
 {{- end -}}
 
 {{- define "db.connection_string" -}}

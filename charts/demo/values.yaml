@@ -52,3 +52,9 @@ hpa:
 ingress:
   class: nginx
   cert:
+
+storefront:
+  service:
+    name: storefront
+    internalPort: 80
+    externalPort: 80 

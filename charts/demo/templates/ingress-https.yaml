@@ -21,6 +21,8 @@ spec:
     - hosts:   
       - "{{ template "platform.host" . }}"
       secretName: {{ .Values.ingress.cert | default "wildcard-saas-tls" }}
+       - "{{ template "storefront.host" . }}"
+      secretName: {{ .Values.ingress.cert | default "wildcard-saas-tls" }}
   rules:
   - host: {{ template "platform.host" . }}
     http:
@@ -32,4 +34,15 @@ spec:
           serviceName: {{ .Values.saas.expired_page }}
           {{- end }} 
           servicePort: {{ .Values.platform.service.externalPort }}
+        path: /
+   - host: {{ template "storefront.host" . }}
+    http:
+      paths:
+      - backend:
+          {{- if eq .Values.saas.expired false }}
+          serviceName: "{{ template "env.app_name" . }}-{{ .Values.storefront.service.name }}"
+          {{- else }}
+          serviceName: {{ .Values.saas.expired_page }}
+          {{- end }} 
+          servicePort: {{ .Values.storefront.service.externalPort }}
         path: /

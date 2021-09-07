@@ -24,6 +24,7 @@ data:
   VirtoCommerce__LicensePrivateKeyPath: app_data/private.key
   VirtoCommerce__LocalUploadFolderPath: app_data/uploads
   VirtoCommerce__Hangfire__JobStorageType: SqlServer
+  IdentityOptions__User__MaxPasswordAge: "null"
   VirtoCommerce__RefreshProbingFolderOnStart: "false"
   VirtoCommerce__ProbingPath: "app_data/modules"
   Caching__CacheSlidingExpiration: "0:01:00"
