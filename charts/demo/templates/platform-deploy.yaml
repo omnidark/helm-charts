@@ -63,7 +63,7 @@ spec:
         - containerPort: {{ .Values.platform.service.internalPort }}
         readinessProbe:
           httpGet:
-              path: /health
+              path: /
               port: 80
           initialDelaySeconds: 15
           failureThreshold: 100
