@@ -33,6 +33,9 @@ spec:
           && python3 installer.py $(ELECTRONICS_THEME_URL) $(ELECTRONICS_THEME_LOCATION)
           && python3 installer.py $(B2B_THEME_URL) $(B2B_THEME_LOCATION)
           && python3 installer.py $(ASSETS_URL) $(ASSETS_LOCATION)"
+        volumeMounts:
+          - mountPath: /mnt/cms-content
+            name: cms-content-data
       containers:
       - name: vc-storefront-web
         image: "{{ .Values.storefront.image.repository }}:{{ .Values.storefront.image.tag }}"
