@@ -19,12 +19,12 @@ spec:
       imagePullSecrets:
       - name: {{ .Values.platform.image.pullsecret }}
       initContainers:
-      - name: init-platform
+      - name: init-storefront
         envFrom:
         - configMapRef:
             name: "{{ template "env.app_name" . }}-deployment-cm"
         imagePullPolicy: Always
-        image: docker.pkg.github.com/virtocommerce/vc-deploy-containers/platform-installer:v3
+        image: ghcr.io/virtocommerce/vc-deploy-containers/platform-installer:v3
         command:
           - "/bin/sh"
           - "-c"
@@ -35,7 +35,7 @@ spec:
           && python3 installer.py $(ASSETS_URL) $(ASSETS_LOCATION)"
       containers:
       - name: vc-storefront-web
-        image: docker.pkg.github.com/virtocommerce/vc-storefront/storefront:dev-linux-latest
+        image: "{{ .Values.storefront.image.repository }}:{{ .Values.storefront.image.tag }}"
         envFrom:
         - configMapRef:
             name: "{{ template "env.app_name" . }}-storefront-cm"

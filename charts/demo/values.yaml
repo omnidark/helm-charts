@@ -57,4 +57,7 @@ storefront:
   service:
     name: storefront
     internalPort: 80
-    externalPort: 80 
+    externalPort: 80
+  image:
+    repository: ghcr.io/virtocommerce/demo-storefront
+    tag: 1.13.0-alpha.1034-dev-4543e095
