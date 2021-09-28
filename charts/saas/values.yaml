@@ -50,5 +50,6 @@ hpa:
   enabled: true
   replicas: 2
 ingress:
+  hostname:
   class: nginx
   cert:
