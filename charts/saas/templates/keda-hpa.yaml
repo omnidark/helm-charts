@@ -1,4 +1,4 @@
-{{- if eq .Values.hpa.enabled true }}
+{{- if and (eq .Values.hpa.enabled true) (eq .Values.saas.template "helm-trial") }}
 apiVersion: keda.sh/v1alpha1
 kind: ScaledObject
 metadata:
