@@ -5,6 +5,7 @@ metadata:
   labels:
     {{- include "app.labels" . | nindent 4 }}
 data:
+  TAG: {{ .Values.platform.image.tag }}
   AppInsights__EnableDependencyTrackingTelemetryModule: "false"
   Swagger__UI__Enabled: "false"
   PushNotifications__ForceWebSockets: "true"

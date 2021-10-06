@@ -1,8 +1,8 @@
-name: virtocommerce
-version: 1.0.1
+name: virtocommerce-saas-test
+version: 0.0.1
 apiVersion: v2
-description: Virtocommerce cloud solution
+description: SaaS test solution
 maintainers:  
     - name: Konstantin Kisilevskiy
       email: konstantin.kisilevsky@virtoway.com
-appVersion: 1.0
+appVersion: 1.0.0
