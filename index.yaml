@@ -125,6 +125,18 @@ entries:
   virtocommerce-paas:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2021-10-19T13:28:48.291739239Z"
+    description: PaaS solution
+    digest: 61cba00f81b1c7c4bde7d2294366026de168385b83c4d2a6aeda0e8537b85e64
+    maintainers:
+    - email: konstantin.kisilevsky@virtoway.com
+      name: Konstantin Kisilevskiy
+    name: virtocommerce-paas
+    urls:
+    - https://github.com/omnidark/helm-charts/releases/download/virtocommerce-paas-1.0.3/virtocommerce-paas-1.0.3.tgz
+    version: 1.0.3
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2021-10-19T12:45:28.568029149Z"
     description: PaaS solution
     digest: fc772f29f9a24b7b6834d8131739af5a0171bdff1595ffd732568d836bb398ad
