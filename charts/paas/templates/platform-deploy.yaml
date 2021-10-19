@@ -80,9 +80,9 @@ spec:
           - "/bin/bash"
           - "-c"
         args: 
-          - "echo export ConnectionStrings__VirtoCommerce=\"$(DB_CONNECTION_STRING)\" >> /tmp/config
-          && echo  $(ELASTIC_KEY) >> /tmp/config
-          && echo export ConnectionStrings__RedisConnectionString=\"$(REDIS_CONNECTION_STRING)\" >> /tmp/config
+          - "echo export ConnectionStrings__VirtoCommerce=\"$(DB_CONNECTION_STRING)\"
+          && echo  $(ELASTIC_KEY)
+          && echo export ConnectionStrings__RedisConnectionString=\"$(REDIS_CONNECTION_STRING)\"
           && source /tmp/config && echo start && dotnet VirtoCommerce.Platform.Web.dll"
         ports:
         - containerPort: {{ .Values.platform.service.internalPort }}
