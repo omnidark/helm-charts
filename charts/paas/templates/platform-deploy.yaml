@@ -54,13 +54,30 @@ spec:
         envFrom:
         - configMapRef:
             name: {{ template "env.app_name" . }}-platform-cm
-        - configMapRef:
-            name: {{ template "env.app_name" . }}-platform-secret-configmap
+        env:
+          - name: ELASTIC_PASS
+            valueFrom:
+              secretKeyRef:
+                name: vc-elastic-pass
+                key: password
+          - name: REDIS_CLUSTER_PASS
+            valueFrom:
+              secretKeyRef:
+                name: vc-rediscluster-password
+                key: password
+          - name: DB_PASS
+            valueFrom:
+              secretKeyRef:
+                name: vc-db-pass
+                key: password
         command:
           - "/bin/bash"
           - "-c"
         args:
-          - "source /vault/secrets/config && echo start && dotnet VirtoCommerce.Platform.Web.dll"
+          - "echo {{ template "db.connection_string" . }} >> /tmp/config
+          && echo {{ template "elastic.key" . }} >> /tmp/config
+          && echo {{ template "redis.connection_string" . }} >> /tmp/config
+          && source /tmp/config && echo start && dotnet VirtoCommerce.Platform.Web.dll"
         ports:
         - containerPort: {{ .Values.platform.service.internalPort }}
         readinessProbe:
