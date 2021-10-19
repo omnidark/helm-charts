@@ -73,10 +73,10 @@ spec:
         command:
           - "/bin/bash"
           - "-c"
-        args:
-          - "echo {{ template "db.connection_string" . }} >> /tmp/config
+        args: |-
+          "echo export ConnectionStrings__VirtoCommerce={{ include "db.connection_string" . | quote }} >> /tmp/config
           && echo {{ template "elastic.key" . }} >> /tmp/config
-          && echo {{ template "redis.connection_string" . }} >> /tmp/config
+          && echo export ConnectionStrings__RedisConnectionString={{ include "redis.connection_string" . | quote }} >> /tmp/config
           && source /tmp/config && echo start && dotnet VirtoCommerce.Platform.Web.dll"
         ports:
         - containerPort: {{ .Values.platform.service.internalPort }}
