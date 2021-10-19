@@ -73,7 +73,7 @@ spec:
         command:
           - "/bin/bash"
           - "-c"
-        args: |-
+        args: >
           "echo export ConnectionStrings__VirtoCommerce={{ include "db.connection_string" . | quote }} >> /tmp/config
           && echo {{ template "elastic.key" . }} >> /tmp/config
           && echo export ConnectionStrings__RedisConnectionString={{ include "redis.connection_string" . | quote }} >> /tmp/config
