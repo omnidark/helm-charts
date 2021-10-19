@@ -70,20 +70,20 @@ spec:
               secretKeyRef:
                 name: vc-db-pass
                 key: password
-          - name: DB_CONNECTION_STRING
+          - name: ConnectionStrings__VirtoCommerce
             value: {{ include "db.connection_string" . | quote }}
-          - name: REDIS_CONNECTION_STRING
+          - name: ConnectionStrings__RedisConnectionString
             value: {{ include "redis.connection_string" . | quote }}
-          - name: ELASTIC_KEY
-            value: {{ template "elastic.key" . }}
+          - name: Search__ElasticSearch__Key
+            valueFrom:
+              secretKeyRef:
+                name: vc-elastic-pass
+                key: password
         command:
           - "/bin/bash"
           - "-c"
         args: 
-          - "echo export ConnectionStrings__VirtoCommerce=\"$(DB_CONNECTION_STRING)\"
-          && echo  $(ELASTIC_KEY)
-          && echo export ConnectionStrings__RedisConnectionString=\"$(REDIS_CONNECTION_STRING)\"
-          && source /tmp/config && echo start && dotnet VirtoCommerce.Platform.Web.dll"
+          - "echo start && dotnet VirtoCommerce.Platform.Web.dll"
         ports:
         - containerPort: {{ .Values.platform.service.internalPort }}
         readinessProbe:
