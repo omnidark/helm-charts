@@ -71,7 +71,7 @@ spec:
                 name: vc-db-pass
                 key: password
           - name: ConnectionStrings__VirtoCommerce
-            value: "Server=tcp:{{ .Values.platform.db.server }},1433;Database={{ .Values.platform.db.db_name | default (printf "%s-platform_saas" .Release.Name) }};User ID={{ .Values.platform.db.username | default (printf "%s_%s_user" .Release.Name .Release.Namespace) }}@{{ .Values.platform.db.sql_server }};Password=$(DB_PASS);Trusted_Connection=False;Encrypt=True;"
+            value: "Server=tcp:{{ .Values.platform.db.server }},1433;Database={{ .Values.platform.db.db_name | default (printf "%s-platform_%s" .Release.Name .Release.Namespace) }};User ID={{ .Values.platform.db.username | default (printf "%s_%s_user" .Release.Name .Release.Namespace) }}@{{ .Values.platform.db.sql_server }};Password=$(DB_PASS);Trusted_Connection=False;Encrypt=True;"
           - name: ConnectionStrings__RedisConnectionString
             value: "{{ .Values.platform.redis.service | default "redis-cluster.redis:6379" }},password=$(REDIS_CLUSTER_PASS),ssl=False,abortConnect=False,channelPrefix={{ .Values.platform.redis.chanel | default (printf "%s-%s-chanel" .Release.Name .Release.Namespace ) }}"
           - name: Search__ElasticSearch__Key
