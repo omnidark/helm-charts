@@ -83,8 +83,10 @@ spec:
           - "/bin/bash"
           - "-c"
         args: 
-          - "echo $ConnectionStrings__RedisConnectionString && echo ConnectionStrings__RedisConnectionString
-          echo start && dotnet VirtoCommerce.Platform.Web.dll"
+          - "echo $(ConnectionStrings__RedisConnectionString) >> /tmp/config 
+          && echo $(ConnectionStrings__RedisConnectionString) >> /tmp/config
+          && echo $(Search__ElasticSearch__Key) >> /tmp/config
+          && cat /tmp/config && echo start && dotnet VirtoCommerce.Platform.Web.dll"
         ports:
         - containerPort: {{ .Values.platform.service.internalPort }}
         readinessProbe:
