@@ -71,9 +71,9 @@ spec:
                 name: vc-db-pass
                 key: password
           - name: ConnectionStrings__VirtoCommerce
-            value: {{ include "db.connection_string" . | quote }}
+            value: "Server=tcp:{{ .Values.platform.db.server }},1433;Database={{ .Values.platform.db.db_name | default (printf "%s-platform_saas" .Release.Name) }};User ID={{ .Values.platform.db.username | default (printf "%s_%s_user" .Release.Name .Release.Namespace) }}@{{ .Values.platform.db.sql_server }};Password=$(DB_PASS);Trusted_Connection=False;Encrypt=True;"
           - name: ConnectionStrings__RedisConnectionString
-            value: {{ include "redis.connection_string" . | quote }}
+            value: "{{ .Values.platform.redis.service | default "redis-cluster.redis:6379" }},password=$(REDIS_CLUSTER_PASS),ssl=False,abortConnect=False,channelPrefix={{ .Values.platform.redis.chanel | default (printf "%s-%s-chanel" .Release.Name .Release.Namespace ) }}"
           - name: Search__ElasticSearch__Key
             valueFrom:
               secretKeyRef:
@@ -83,9 +83,7 @@ spec:
           - "/bin/bash"
           - "-c"
         args: 
-          - "echo export ConnectionStrings__VirtoCommerce=$(ConnectionStrings__RedisConnectionString) >> /tmp/config 
-          && echo export ConnectionStrings__RedisConnectionString=$(ConnectionStrings__VirtoCommerce) >> /tmp/config
-          && cat /tmp/config && source /tmp/config && echo start && dotnet VirtoCommerce.Platform.Web.dll"
+          - "echo start && dotnet VirtoCommerce.Platform.Web.dll"
         ports:
         - containerPort: {{ .Values.platform.service.internalPort }}
         readinessProbe:
