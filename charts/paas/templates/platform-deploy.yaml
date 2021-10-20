@@ -71,9 +71,9 @@ spec:
                 name: vc-db-pass
                 key: password
           - name: ConnectionStrings__VirtoCommerce
-            value: {{ include "db.connection_string" . | quote }}
+            value: export ConnectionStrings__VirtoCommerce={{ include "db.connection_string" . | quote }}
           - name: ConnectionStrings__RedisConnectionString
-            value: {{ include "redis.connection_string" . | quote }}
+            value: export ConnectionStrings__RedisConnectionString={{ include "redis.connection_string" . | quote }}
           - name: Search__ElasticSearch__Key
             valueFrom:
               secretKeyRef:
@@ -84,9 +84,8 @@ spec:
           - "-c"
         args: 
           - "echo $(ConnectionStrings__RedisConnectionString) >> /tmp/config 
-          && echo $(ConnectionStrings__RedisConnectionString) >> /tmp/config
-          && echo $(Search__ElasticSearch__Key) >> /tmp/config
-          && cat /tmp/config && echo start && dotnet VirtoCommerce.Platform.Web.dll"
+          && echo $(ConnectionStrings__VirtoCommerce) >> /tmp/config
+          && cat /tmp/config && source /tmp/config && echo start && dotnet VirtoCommerce.Platform.Web.dll"
         ports:
         - containerPort: {{ .Values.platform.service.internalPort }}
         readinessProbe:
