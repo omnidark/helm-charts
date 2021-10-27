@@ -11,6 +11,9 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-buffering: "on"
     nginx.ingress.kubernetes.io/proxy-buffers-number: "16"
     nginx.ingress.kubernetes.io/proxy-buffer-size: "64k"
+    nginx.ingress.kubernetes.io/modsecurity-snippet: |
+      SecRuleEngine On
+      SecRuleRemoveById 949110
     {{- if eq .Values.saas.expired false }}
     nginx.ingress.kubernetes.io/default-backend: {{ .Values.saas.error_page }}-error-page
     {{- else }}
